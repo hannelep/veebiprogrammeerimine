@@ -1,5 +1,12 @@
 <?php
   $userName = "Hannele Pruunlep";
+  $fullTimeNow = date("d.m.Y. H:i:s");
+  $hourNow = date("H");
+  $partOfDay = "hägune aeg";
+  
+  if($hourNow < 8) {
+	$partOfDay = "hommik";
+  }
 ?>
 <!DOCTYPE html>
 <html lang="et">
@@ -20,7 +27,10 @@
   <h2 style="color:red">Oluline!</h2>
   <p title="Tõesti väga oluline"> See veebileht on loodud õppetöö käigus ning ei sisalda mingit tõsiseltvõetavat sisu!</p>
   <hr>
-  
+  <?php
+    echo "<p>lehe avamise hetkel oli aeg: " .$fullTimeNow .", " .$partOfDay .".</p>";
+  ?>
+  <hr>
   <h2 style="color:purple">Minu tunnid teisipäeval on:</h2>
   <ul>
     <li>Veebiprogrammeerimine</li>
