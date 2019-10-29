@@ -1,6 +1,17 @@
 <?php
+  require("../../../config_vp2019.php");
   require("functions_user.php");
-  $userName = "Hannele Pruunlep";
+  require("functions_main.php");
+  $database = "if19_hannele_pr_1";
+  $userName = "Sisselogimata kasutaja";
+  
+  $notice = "";
+  $email = "";
+  $emailError = "";
+  $passwordError = "";
+  
+  
+
   
   $photoDir = "../photos/";
   $photoTypes = ["image/jpeg", "image/png"];
@@ -15,30 +26,6 @@
   $fullTimeNow = date("d.m.Y. H:i:s");
   $hourNow = date("H");
   $partOfDay = "hägune aeg";
-  
-  //sisselogimine
-  $notice = null;
-  $email = null;
-  $emailError = null;
-  $passwordError = null;
-  
-  
-    if(isset($_POST["login"])) {
-		if (isset($_POST["email"]) and !empty($_POST["email"])){
-			$email = test_input($_POST["email"]);
-		} else {
-			$emailError = "Palun sisesta email!";
-		}
-		if(empty($_POST["password"])){
-			$passwordError = "Palun sisestage parool!";
-		} 
-	if(empty($emailError) and empty($passwordError)){
-	 $notice = signin($email, $_POST["password"]);
-	 } else {
-	  $notice = "Ei saa sisse logida!";
-     }
-	}
-	
   
   
   if($hourNow < 11) {
@@ -95,21 +82,62 @@
 	//echo $photoList[$photoNum];
 	// <img src="../photos/tlu_terra_600x400_1.jpg" alt="TLÜ Terra õppehoone"> 
 	$randomImgHTML ='<img src="' .$photoDir .$photoList[$photoNum] . '" alt="Juhuslik foto">';
+	
+	if(isset($_POST["login"])) {
+		if (isset($_POST["email"]) and !empty($_POST["email"])){
+			$email = test_input($_POST["email"]);
+		} else {
+			$emailError = "Palun sisestage email!";
+		}
+		if(!isset($_POST["password"]) or strlen($_POST["password"]) < 8){
+			$passwordError = "Palun sisestage parool, vähemalt 8 märki!";
+		} 
+		if(empty($emailError) and empty($passwordError)){
+			$notice = singIn($email, $_POST["password"]);
+		} else {
+			$notice = "Sisse logimine ei õnnestunud!";
+		}
+	}
+	
 
 	require("header.php");
 	
 	echo "<h1>" .$userName .", veebiprogrammeerimine</h1>";
   ?>
-  <h2 style="color:red">Oluline!</h2>
+  
+  
+ 
   <p title="Tõesti väga oluline"> See veebileht on loodud õppetöö käigus ning ei sisalda mingit tõsiseltvõetavat sisu!</p>
   
+  <hr>
   <?php
     echo $semesterInfoHTML;
   ?>
-  <hr>
   <?php
     //echo "<p> Lehe avamise hetkel oli aeg: " .$fullTimeNow .", " .$partOfDay . ". </p>";
 	echo "<p> Lehe avamise hetkel oli aeg: " .$weekDaysET[$weekDayNow - 1] .", " .$dateNow .". " .$monthsET[$monthNow - 1] ." " .$yearNow ." kell " .$timeNow ."</p>";
+
+  ?> 
+  <hr>
+  <h2 style="color:red">Logi sisse!</h2>
+  <br>
+  <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+	  <label>E-mail:</label><br>
+	  <input type="email" name="email" value="<?php echo $email; ?>"><span><?php echo $emailError; ?></span><br>
+	  
+	  <label>Salasõna:</label><br>
+	  <input name="password" type="password"><span><?php echo $passwordError; ?></span><br>
+	  
+	  <input name="login" type="submit" value="Logi sisse"><span><?php echo $notice; ?>
+	</form>	
+	<br>
+	<br>
+	<hr>
+	<h2>Kui pole kasutajakontot</h2>
+	<p>Loo <a href="newuser.php">kasutajakonto</a>!</p>
+	<br>
+  <hr>
+  <?php
 
 	echo $randomImgHTML;
   ?>

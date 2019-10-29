@@ -91,16 +91,16 @@
 	  } else {
 		$emailError = "Palun sisesta oma email!";
 	  }
-	  //paroll kontroll (kas on olemas, kas vähemalt 8 tähte ja kaks korda ühtemoodi.
+	  //parooli kontroll (kas on olemas, kas vähemalt 8 tähte ja kaks korda ühtemoodi.
 	  if (isset($_POST["password"]) and !empty($_POST["password"])){
 		$password = test_input($_POST["password"]);
-			if (strlen($_POST["password"]) > 8 ){
+			if (strlen($_POST["password"]) > 7 ){
 				$password = ($_POST["password"]);
 			} else { 
 				$passwordError = "Parool pole piisavalt pikk";
 			}
 	  } else {
-		    $parrwordError = "Sisestage parool";
+		    $passwordError = "Sisestage parool";
 	  }
 	  
 	  if (!isset($_POST["confirmpassword"]) or empty($_POST["confirmpassword"])){
@@ -196,6 +196,8 @@
 	  <input name="confirmpassword" type="password"><span><?php echo $confirmpasswordError; ?></span><br>
 	  <input name="submitUserData" type="submit" value="Loo kasutaja"><span><?php echo $notice; ?></span>
 	</form>
+	
+	<p>Tagasi <a href="page.php">avalehele</a>!</p>
 	<hr>
 		
  </body>
