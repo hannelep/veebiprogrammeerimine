@@ -90,10 +90,10 @@
     }
   function storeFilmInfo($filmTitle, $filmYear, $filmDuration, $filmGenre, $filmStudio, $filmDirector){
 	  $conn = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
-	  $stmt = $conn -> prepare("INSERT INTO film (pealkiri, aasta, kestus, zanr, tootja, lavastaja) VALUES(?,?,?,?,?,?)");
+	  $stmt = $conn -> prepare("INSERT INTO FILM (pealkiri, aasta, kestus, sisukokkuvote) VALUES(?,?,?,?)");
 	  echo $conn -> error;
 	  //andmetüübid: s - string   i - integer   d - decimal
-	  $stmt -> bind_param("siisss", $filmTitle, $filmYear, $filmDuration, $filmGenre, $filmStudio, $filmDirector);
+	  $stmt -> bind_param("siis", $filmTitle, $filmYear, $filmDuration, $filmDuration);
 	  $stmt -> execute();
 	  
 	  $stmt -> close();
